@@ -20,7 +20,27 @@ const supabase = createClient(
     process.env.SUPABASE_SECRET_KEY
 ); // Tambahkan ini
 
-app.use(cors());
+// --- Ganti baris app.use(cors()) yang lama dengan ini ---
+
+const allowedOrigins = [
+    'https://adithikmah28.github.io' // <-- GANTI DENGAN URL UTAMA GITHUB PAGES ANDA
+    // Jika Anda testing di komputer lokal, tambahkan: 'http://127.0.0.1:5500'
+  ];
+  
+  const corsOptions = {
+    origin: function (origin, callback) {
+      // Izinkan jika origin ada di dalam daftar, atau jika tidak ada origin (seperti dari curl)
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  };
+  
+  app.use(cors(corsOptions));
+  
+  // --- Lanjutan kodenya (app.use(express.json()), dll) ---
 app.use(express.json());
 
 // --- Endpoint yang Sudah Ada (tetap dibutuhkan) ---
