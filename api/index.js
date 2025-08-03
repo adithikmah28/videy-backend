@@ -29,6 +29,7 @@ const allowedOrigins = [
   
   const corsOptions = {
     origin: function (origin, callback) {
+        console.log('Menerima permintaan dari Origin:', origin);
       // Izinkan jika origin ada di dalam daftar, atau jika tidak ada origin (seperti dari curl)
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
